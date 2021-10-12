@@ -1,6 +1,3 @@
-# Date:		25/08/2021
-# Author:	Mohammad Samani
-# Contact:	m@msamani.ca
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -11,6 +8,16 @@ timeformat = mdates.ConciseDateFormatter(locator)
 from scipy.optimize import curve_fit, brentq
 from lmfit import minimize, Parameters, report_fit
 colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+
+#MySQL stuff
+import mysql, mysql.connector
+mysqlconfig = {
+    "host": "phys-dots-data.physik.unibas.ch",
+    "user": "logger",
+    "passwd": "CryoH4ll",
+    "database": "logs"
+}
+# END MySQL
 
 # Constants
 Rk = 25813
@@ -73,6 +80,13 @@ def MasterEquation(Vsd, Vsd0, gT, Ec, Te, N=33):
     if scalar_input:
         return np.squeeze(ret)
     return ret
+
+def GetBFData(sensor_id, start_time, end_time):
+    sql = f"SELECT UNIX_TIMESTAMP(`time`), `value` FROM `records` WHERE `time` BETWEEN FROM_UNIXTIME({start_time:.0f}) AND FROM_UNIXTIME({end_time:.0f}) AND `sensor_id`={sensor_id} ORDER BY `time` ASC"
+    db = mysql.connector.connect(**mysqlconfig)
+    cursor = db.cursor()
+    cursor.execute(sql)
+    return np.array(cursor.fetchall())
 
 def Tcbt(g0gT, Ec, N=33):
     if np.isnan(g0gT):
