@@ -14,7 +14,7 @@ import mysql, mysql.connector
 mysqlconfig = {
     "host": "phys-dots-data.physik.unibas.ch",
     "user": "logger",
-    "passwd": "CryoH4ll",
+    "passwd": "****",
     "database": "logs"
 }
 # END MySQL
