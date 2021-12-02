@@ -4,7 +4,7 @@ Arixv: https://arxiv.org/abs/2110.06293
 
 This repository only includes data files that were used for generating the figures in the manuscript.
 
-You will need the ```h5py``` library to load the data files into Python procedures.
+You will need the ```h5py``` library to load the data files.
 ```
 pip install h5py
 ```
